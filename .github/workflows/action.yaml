@@ -67,7 +67,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Upload to s3
-        run: aws s3 cp ${{ github.sha }}.zip s3://github-actions-s3-bucket/${{ github.sha }}.zip
+        run: aws s3 cp ${{ github.sha }}.zip s3://github-actions-s3-bucket-poc/${{ github.sha }}.zip
   
   test:
     runs-on: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
       - name: Create test function
         run: |
           aws lambda create-function --function-name test-function-${{ matrix.input }} \
-          --code S3Bucket=github-actions-s3-bucket,S3Key=${{ github.sha }}.zip \
+          --code S3Bucket=github-actions-s3-bucket-poc,S3Key=${{ github.sha }}.zip \
           --handler lambda_function.lambda_handler --runtime python3.8 \
           --role arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID}}:role/github-actions-lambda-role
       - name: Invoke test function 
@@ -116,6 +116,6 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name github-actions-lambda-function \
-            --s3-bucket github-actions-s3-bucket \
+            --s3-bucket github-actions-s3-bucket-poc \
             --s3-key ${{ github.sha }}.zip \
             --publish
