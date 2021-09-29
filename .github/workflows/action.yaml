@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    steps:
+    steps: 
       - name: Check out code
         uses: actions/checkout@v2
       - name: Set up Python
@@ -18,8 +18,8 @@ jobs:
           python-version: 3.8
       - name: Install linting libraries
         run: |
-          cd function
-          pip install flake 
+            cd function
+            pip install flake8
       - name: Lint with flake8
         run: |
             # Select identifies which errors should cause the job to fail
